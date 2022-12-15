@@ -44,4 +44,26 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {
         Route::get('/user', UserController::class);
     });
+
+    Route::get('/refresh', function () {
+        Artisan::call('migrate:refresh', [
+            '--force' => true
+         ]);
+        Artisan::call('db:seed', [
+            '--force' => true
+         ]);
+    });
+    
+    Route::get('/config-clear', function () {
+        Artisan::call('config:clear');
+    });
+    Route::get('/cache-clear', function () {
+        Artisan::call('cache:clear');
+    });
+    Route::get('/route-cache', function () {
+        Artisan::call('route:cache');
+    });
+    Route::get('/view-clear', function () {
+        Artisan::call('view:clear');
+    });
 });
